@@ -10,7 +10,7 @@ matrix:
           language: generic
           env: TOXENV=py27
 install:
-  - pip install -e
+  - pip install -e .
 
 script:
   - py.test -v test
