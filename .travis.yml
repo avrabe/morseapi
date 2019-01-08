@@ -1,0 +1,16 @@
+language: python
+cache:
+  - pip
+matrix:
+    include:
+        - os: linux
+          python: 2.7
+          env: TOXENV=py27
+        - os: osx
+          language: generic
+          env: TOXENV=py27
+install:
+  - pip install -e
+
+script:
+  - py.test -v test
