@@ -1,4 +1,7 @@
 # MorseAPI
+
+[![Build Status](https://travis-ci.org/avrabe/morseapi.svg?branch=master)](https://travis-ci.org/avrabe/morseapi)
+
 `MorseAPI` is an unofficial (and unsanctioned) python library for controlling
 [Wonder Workshop's](https://www.makewonder.com/)
 [Dash and Dot](https://www.makewonder.com/?gclid=CPOO8bC8k8oCFdaRHwodPeMIZg)
