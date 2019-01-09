@@ -8,6 +8,9 @@
 [Dash and Dot](https://www.makewonder.com/?gclid=CPOO8bC8k8oCFdaRHwodPeMIZg)
 robots.
 
+
+TODO: integrate into wonderpy
+
 MorseAPI abstracts out this communication protocol and, through python methods
 exposes control of lights, motion and sensor data.
 
