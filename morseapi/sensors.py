@@ -1,13 +1,14 @@
-import logging
 import time
 
 from morseapi.constants import CHARACTERISTICS
 
+
 def _to_int(value, bits):
-    if value > ((1<<(bits-1))-1):
-        return  value - (1<<bits)
+    if value > ((1 << (bits - 1)) - 1):
+        return value - (1 << bits)
     else:
         return value
+
 
 class MorseSense(object):
     def __init__(self, connection, sensor_state):
@@ -41,7 +42,7 @@ class MorseSense(object):
         else:
             raise RuntimeError(
                 "Failed to initialize sensor reading within {0} seconds"
-                .format(timeout)
+                    .format(timeout)
             )
 
     def subscribe(self):
@@ -62,7 +63,7 @@ class MorseSense(object):
         self.dot_data_stream_ready = True
         self.sensor_state["dot_time"] = time.time()
         self.sensor_state["dot_index"] = value[0] >> 4
-        #self.sensor_state["raw_dot"] = value[:]
+        # self.sensor_state["raw_dot"] = value[:]
         self.sensor_state["pitch"] = _to_int(
             (value[4] & 0xf0) << 4 | value[2],
             12
@@ -93,7 +94,6 @@ class MorseSense(object):
         self.sensor_state["side"] = value[11] & 0x20 == 0x20
         self.sensor_state["nominal"] = value[11] & 0x30 == 0x30
 
-
         self.sensor_state["clap"] = (value[11] & 1) == 1
         self.sensor_state["mic_level"] = value[7]
         if value[15] == 4:
@@ -113,25 +113,24 @@ class MorseSense(object):
         # )
 
         # Unknown sensor fields
-        #if "unknown_dot" not in self.sensor_state:
+        # if "unknown_dot" not in self.sensor_state:
         #    self.sensor_state["unknown_dot"] = {}
-        #self.sensor_state["unknown_dot"]["0"] = value[0] & 0x0f
-        #self.sensor_state["unknown_dot"]["1"] = value[1]  # always 0?
-        #self.sensor_state["unknown_dot"]["8"] = value[8] & 0x0f # awlays 0?
-        #self.sensor_state["unknown_dot"]["9"] = value[9]
-        #self.sensor_state["unknown_dot"]["10"] = value[10]
-        #self.sensor_state["unknown_dot"]["14"] = value[14]
+        # self.sensor_state["unknown_dot"]["0"] = value[0] & 0x0f
+        # self.sensor_state["unknown_dot"]["1"] = value[1]  # always 0?
+        # self.sensor_state["unknown_dot"]["8"] = value[8] & 0x0f # awlays 0?
+        # self.sensor_state["unknown_dot"]["9"] = value[9]
+        # self.sensor_state["unknown_dot"]["10"] = value[10]
+        # self.sensor_state["unknown_dot"]["14"] = value[14]
         # partially known:
-        #self.sensor_state["unknown_dot"]["15"] = value[15]
-        #self.sensor_state["unknown_dot"]["17"] = value[17]
-        #self.sensor_state["unknown_dot"]["18"] = value[18]
-        #self.sensor_state["unknown_dot"]["19"] = value[19]
-
+        # self.sensor_state["unknown_dot"]["15"] = value[15]
+        # self.sensor_state["unknown_dot"]["17"] = value[17]
+        # self.sensor_state["unknown_dot"]["18"] = value[18]
+        # self.sensor_state["unknown_dot"]["19"] = value[19]
 
     def _dash_sensor_decode(self, handle, value):
         self.dash_data_stream_ready = True
         self.sensor_state["dash_time"] = time.time()
-        #self.sensor_state["raw_dash"] = value[:]
+        # self.sensor_state["raw_dash"] = value[:]
         self.sensor_state["dash_index"] = value[0] >> 4
         self.sensor_state["pitch_delta"] = _to_int(
             (value[4] & 0x30) << 4 | value[3],
@@ -144,8 +143,8 @@ class MorseSense(object):
         self.sensor_state["prox_right"] = value[6]
         self.sensor_state["prox_left"] = value[7]
         self.sensor_state["prox_rear"] = value[8]
-        yaw = _to_int((value[13]  << 8) | value[12], 12)
-        self.sensor_state["yaw_delta"] = yaw  - self.sensor_state["yaw"]
+        yaw = _to_int((value[13] << 8) | value[12], 12)
+        self.sensor_state["yaw_delta"] = yaw - self.sensor_state["yaw"]
         self.sensor_state["yaw"] = yaw
 
         self.sensor_state["left_wheel"] = (value[15] << 8) | value[14]
@@ -159,10 +158,10 @@ class MorseSense(object):
 
         # Unknown sensor fields
         # missing fields: dot tracking, microphone direction
-        #if "unknown_dash" not in self.sensor_state:
+        # if "unknown_dash" not in self.sensor_state:
         #    self.sensor_state["unknown_dash"] = {}
-        #self.sensor_state["unknown_dash"]["0"] = value[0] & 0x0f
-        #self.sensor_state["unknown_dash"]["1"] = value[1]
-        #self.sensor_state["unknown_dash"]["2"] = value[2]
+        # self.sensor_state["unknown_dash"]["0"] = value[0] & 0x0f
+        # self.sensor_state["unknown_dash"]["1"] = value[1]
+        # self.sensor_state["unknown_dash"]["2"] = value[2]
 
-        #logging.debug("self.sensor_state: {}".format(self.sensor_state))
+        # logging.debug("self.sensor_state: {}".format(self.sensor_state))

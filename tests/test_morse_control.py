@@ -1,8 +1,10 @@
 import unittest
+
 from mock import MagicMock
 
 from morseapi import MorseRobot
 from morseapi import NOISES
+
 
 class MorseRobotCommandsTest(unittest.TestCase):
     def setUp(self):

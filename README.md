@@ -7,8 +7,6 @@
 [Dash and Dot](https://www.makewonder.com/?gclid=CPOO8bC8k8oCFdaRHwodPeMIZg)
 robots.
 
-The robots are controlled with commands sent over Bluetooth, specifically
-[GATT](https://developer.bluetooth.org/TechnologyOverview/Pages/GATT.aspx).
 MorseAPI abstracts out this communication protocol and, through python methods
 exposes control of lights, motion and sensor data.
 
@@ -23,11 +21,7 @@ integrated, and portable package.
 has been tested in this combination. Note, that Raspberry does not come
 with a built in bluttooth module, so a USB bluetooth accessory is required.
 
-In theory it should be possible to us MorseAPI on OSX. To do so you must
-use [pygatt](https://github.com/peplin/pygatt)'s BGAPI backend. But it
-does require a very special bluetooth adapter;
-[BLED112](https://www.bluegiga.com/en-US/products/bled112-bluetooth-smart-dongle/).
-Again OSX has not been tested.
+
 
 ## Motivation
 There exist smartphone apps which allow remote-controlling Dash and Dot, and even "writing programs" for them.

@@ -10,7 +10,9 @@ matrix:
           language: generic
           env: TOXENV=py27
 install:
+  - python setup.py develop
   - pip install -e .
 
 script:
-  - py.test -v test
+  - rm -f .coverage
+  - nosetests -sv --with-coverage ./tests/

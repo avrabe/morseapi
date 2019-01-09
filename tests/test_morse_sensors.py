@@ -1,10 +1,9 @@
 import unittest
 from collections import defaultdict
-from mock import MagicMock, patch
+
+from mock import MagicMock
 
 from morseapi import MorseSense
-from morseapi import NOISES
-
 
 DASH_RAW_SENSOR = bytearray(
     "809600ffffff0101ff0f34ed9ce1fce55c190405"

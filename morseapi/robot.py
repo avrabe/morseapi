@@ -1,21 +1,15 @@
 from __future__ import division
-import time
-import logging
-import struct
+
 import binascii
+import logging
 import math
+import struct
 from collections import defaultdict
 
-from robots import GenericRobot
-# from robots.decorators import action, lock
-# from robots.resources import Resource
-# from robots.signals import ActionCancelled
-
 from colour import Color
-import pygatt.backends
 
-from morseapi.sensors import MorseSense
-from morseapi.constants import HANDLES, COMMANDS, NOISES
+from morseapi.constants import COMMANDS, NOISES
+
 
 def one_byte_array(value):
     """
@@ -25,6 +19,7 @@ def one_byte_array(value):
     """
     return bytearray(struct.pack(">B", value))
 
+
 def two_byte_array(value):
     """
     Convert Int to a two byte bytearray
@@ -32,6 +27,7 @@ def two_byte_array(value):
     :param value: value 0-65535
     """
     return bytearray(struct.pack(">H", value))
+
 
 def color_byte_array(color_value):
     """
@@ -42,10 +38,11 @@ def color_byte_array(color_value):
     """
     color = Color(color_value)
     return bytearray([
-        int(round(color.get_red()*255)),
-        int(round(color.get_green()*255)),
-        int(round(color.get_blue()*255)),
+        int(round(color.get_red() * 255)),
+        int(round(color.get_green() * 255)),
+        int(round(color.get_blue() * 255)),
     ])
+
 
 def angle_array(angle):
     """
@@ -57,39 +54,18 @@ def angle_array(angle):
         angle = (abs(angle) ^ 0xff) + 1
     return bytearray([angle & 0xff])
 
-class MorseRobot(GenericRobot):
+
+class MorseRobot():
     """
     Controller of WonderWorkshop's Dot / Dash robots.
 
     """
 
-    def __init__(self, address=None):
-        super(MorseRobot, self).__init__()
+    def __init__(self):
         self.sensor_state = defaultdict(int)
         self.state = self.sensor_state
-        self.address = address
         self.sense = None
-        self._connection = None
 
-    @property
-    def connection(self):
-        """
-        Lazy initialization of the connection object
-        """
-        if self._connection:
-            return self._connection
-        elif self.address:
-            adapter = pygatt.backends.GATTToolBackend()
-            adapter.start(False)
-            self._connection = adapter.connect(self.address, address_type=pygatt.BLEAddressType.random)
-            self.sense = MorseSense(self._connection, self.sensor_state)
-            self.sense.start()
-            return self._connection
-        else:
-            return None
-
-    def connect(self):
-        return self.connection
 
     def command(self, command_name, command_values):
         """
@@ -100,8 +76,6 @@ class MorseRobot(GenericRobot):
         """
         message = bytearray([COMMANDS[command_name]]) + command_values
         logging.debug(binascii.hexlify(message))
-        if self.connection:
-            self.connection.char_write_handle(HANDLES["command"], message)
 
     def reset(self, mode=4):
         """
@@ -210,7 +184,6 @@ class MorseRobot(GenericRobot):
         """
         self.command("tail_brightness", one_byte_array(value))
 
-
     def head_yaw(self, angle):
         """
         Turn Dash's head left or right
@@ -277,7 +250,7 @@ class MorseRobot(GenericRobot):
             (speed & 0xff00) >> 5
         ]))
 
-    def turn(self, degrees, speed_dps=(360/2.094)):
+    def turn(self, degrees, speed_dps=(360 / 2.094)):
         """
         Turn Dash specified distance.
 
@@ -285,19 +258,15 @@ class MorseRobot(GenericRobot):
 
         :param degrees: How many degrees to turn.
         Positive values spin clockwise and negative counter-clockwise.
-        :param speed: Speed to turn at, in degrees/second
+        :param speed_dps: Speed to turn at, in degrees/second
         """
         if abs(degrees) > 360:
             raise NotImplementedError("Cannot turn more than one rotation per move")
         if degrees:
-            seconds = abs(degrees/speed_dps)
+            seconds = abs(degrees / speed_dps)
             byte_array = self._get_move_byte_array(degrees=degrees, seconds=seconds)
             self.command("move", byte_array)
-            logging.debug("turn sleeping {0} @ {1}".format(seconds, time.time()))
             logging.debug(binascii.hexlify(byte_array))
-            # self.sleep does not work and api says not to use time.sleep...
-            time.sleep(seconds)
-            logging.debug("turn finished sleeping {0} @ {1}".format(seconds, time.time()))
 
     def move(self, distance_mm, speed_mmps=1000, no_turn=True):
         """
@@ -322,11 +291,7 @@ class MorseRobot(GenericRobot):
                 seconds=seconds,
             )
         self.command("move", byte_array)
-        logging.debug("move sleeping {0} @ {1}".format(seconds, time.time()))
         logging.debug(binascii.hexlify(byte_array))
-        # self.sleep does not work and api says not to use time.sleep...
-        time.sleep(seconds)
-        logging.debug("move finished sleeping {0} @ {1}".format(seconds, time.time()))
 
     @staticmethod
     def _get_move_byte_array(distance_mm=0, degrees=0, seconds=1.0, eight_byte=0x80):
