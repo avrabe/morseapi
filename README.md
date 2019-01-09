@@ -1,6 +1,6 @@
 # MorseAPI
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/214d64589e8e4bcdbcbe70376f089354)](https://app.codacy.com/app/avrabe/morseapi?utm_source=github.com&utm_medium=referral&utm_content=avrabe/morseapi&utm_campaign=Badge_Grade_Settings)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d4e13fe14b6b4f029ddb619c1fb3eebb)](https://www.codacy.com/app/avrabe/morseapi?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=avrabe/morseapi&amp;utm_campaign=Badge_Grade) 
 [![Build Status](https://travis-ci.org/avrabe/morseapi.svg?branch=master)](https://travis-ci.org/avrabe/morseapi)
 
 `MorseAPI` is an unofficial (and unsanctioned) python library for controlling
