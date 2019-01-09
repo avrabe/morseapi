@@ -2,8 +2,8 @@ language: python
 cache:
   - pip
 matrix:
-  allow_failures:
-    - os: osx
+    allow_failures:
+      - os: osx
     include:
         - os: linux
           python: 2.7
