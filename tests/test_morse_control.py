@@ -8,7 +8,7 @@ from morseapi import NOISES
 
 class MorseRobotCommandsTest(unittest.TestCase):
     def setUp(self):
-        self.bot = MorseRobot(None)
+        self.bot = MorseRobot()
         self.bot.command = MagicMock()
 
     def _assert_command_called(self, command_name, command_value):
