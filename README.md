@@ -31,7 +31,6 @@ This is only tested on Debian, though it should work on other Linux flavors. OSX
 
 Steps:
 
- * `sudo apt-get install bluez`  # version 5+ is required by pygatt
  * clone this repo and `cd` into it
  * pip install -e . 
 
@@ -72,7 +71,7 @@ Dash and Dot have many different commands. Morse implements only fraction there 
 Run:
 
 ```
-examples/clock.py C0:F0:84:3C:51:FA
+examples/clock.py C0:F0
 ```
 
 where `C0:F0:84:3C:51:FA` should be the bluetooth address of your bot
