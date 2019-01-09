@@ -14,6 +14,7 @@ matrix:
 install:
   - python setup.py develop
   - pip install -e .
+  - pip install coveralls
 
 script:
   - rm -f coverage.xml
