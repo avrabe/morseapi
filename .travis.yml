@@ -18,7 +18,8 @@ install:
 
 script:
   - rm -f coverage.xml
-  - nosetests -sv --with-coverage --cover-xml-file=coverage.xml ./tests/
+  - nosetests -sv --with-coverage ./tests/
+  - coverage xml
   - pip install codacy-coverage
   - python-codacy-coverage -r coverage.xml
 
