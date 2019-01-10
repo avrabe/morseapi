@@ -66,7 +66,6 @@ class MorseRobot():
         self.state = self.sensor_state
         self.sense = None
 
-
     def command(self, command_name, command_values):
         """
         Send a command to robot
@@ -76,6 +75,7 @@ class MorseRobot():
         """
         message = bytearray([COMMANDS[command_name]]) + command_values
         logging.debug(binascii.hexlify(message))
+        return command_values
 
     def reset(self, mode=4):
         """
@@ -88,7 +88,7 @@ class MorseRobot():
         3 reboot
         4 zero out leds/head
         """
-        self.command("reset", bytearray([mode]))
+        return self.command("reset", bytearray([mode]))
 
     def eye(self, value):
         """
@@ -106,7 +106,7 @@ class MorseRobot():
 
         :param value: bitmask to which light to light up 0-8191
         """
-        self.command("eye", two_byte_array(value))
+        return self.command("eye", two_byte_array(value))
 
     def eye_brightness(self, value):
         """
@@ -114,7 +114,7 @@ class MorseRobot():
 
         :param value: Brightness value 0-255
         """
-        self.command("eye_brightness", one_byte_array(value))
+        return self.command("eye_brightness", one_byte_array(value))
 
     def neck_color(self, color):
         """
@@ -123,7 +123,7 @@ class MorseRobot():
         :param color: 6-digit (e.g. #fa3b2c), 3-digit (e.g. #fbb),
         fully spelled color (e.g. white)
         """
-        self.command("neck_color", color_byte_array(color))
+        return self.command("neck_color", color_byte_array(color))
 
     def left_ear_color(self, color):
         """
@@ -132,7 +132,7 @@ class MorseRobot():
         :param color: 6-digit (e.g. #fa3b2c), 3-digit (e.g. #fbb),
         fully spelled color (e.g. white)
         """
-        self.command("left_ear_color", color_byte_array(color))
+        return self.command("left_ear_color", color_byte_array(color))
 
     def right_ear_color(self, color):
         """
@@ -141,7 +141,7 @@ class MorseRobot():
         :param color: 6-digit (e.g. #fa3b2c), 3-digit (e.g. #fbb),
         fully spelled color (e.g. white)
         """
-        self.command("right_ear_color", color_byte_array(color))
+        return self.command("right_ear_color", color_byte_array(color))
 
     def ear_color(self, color):
         """
@@ -160,7 +160,7 @@ class MorseRobot():
         :param color: 6-digit (e.g. #fa3b2c), 3-digit (e.g. #fbb),
         fully spelled color (e.g. white)
         """
-        self.command("head_color", color_byte_array(color))
+        return self.command("head_color", color_byte_array(color))
 
     def say(self, sound_name):
         """
@@ -172,7 +172,7 @@ class MorseRobot():
         >>> from morseapi import NOISES
         >>> NOISES.keys()
         """
-        self.command("say", bytearray(NOISES[sound_name]))
+        return self.command("say", bytearray(NOISES[sound_name]))
 
     # All the subsequent commands are Dash specific
 
@@ -182,7 +182,7 @@ class MorseRobot():
 
         :param value: Brightness value 0-255
         """
-        self.command("tail_brightness", one_byte_array(value))
+        return self.command("tail_brightness", one_byte_array(value))
 
     def head_yaw(self, angle):
         """
@@ -192,7 +192,7 @@ class MorseRobot():
         """
         angle = max(-53, angle)
         angle = min(53, angle)
-        self.command("head_yaw", angle_array(angle))
+        return self.command("head_yaw", angle_array(angle))
 
     def head_pitch(self, angle):
         """
@@ -202,13 +202,13 @@ class MorseRobot():
         """
         angle = max(-5, angle)
         angle = min(10, angle)
-        self.command("head_pitch", angle_array(angle))
+        return self.command("head_pitch", angle_array(angle))
 
     def stop(self):
         """
         Stop moving Dash.
         """
-        self.command("drive", bytearray([0, 0, 0]))
+        return self.command("drive", bytearray([0, 0, 0]))
 
     def drive(self, speed):
         """
@@ -224,7 +224,7 @@ class MorseRobot():
         speed = min(2048, speed)
         if speed < 0:
             speed = 0x800 + speed
-        self.command("drive", bytearray([
+        return self.command("drive", bytearray([
             speed & 0xff,
             0x00,
             (speed & 0x0f00) >> 8
@@ -265,8 +265,7 @@ class MorseRobot():
         if degrees:
             seconds = abs(degrees / speed_dps)
             byte_array = self._get_move_byte_array(degrees=degrees, seconds=seconds)
-            self.command("move", byte_array)
-            logging.debug(binascii.hexlify(byte_array))
+            return self.command("move", byte_array)
 
     def move(self, distance_mm, speed_mmps=1000, no_turn=True):
         """
@@ -290,8 +289,7 @@ class MorseRobot():
                 distance_mm=distance_mm,
                 seconds=seconds,
             )
-        self.command("move", byte_array)
-        logging.debug(binascii.hexlify(byte_array))
+        return self.command("move", byte_array)
 
     @staticmethod
     def _get_move_byte_array(distance_mm=0, degrees=0, seconds=1.0, eight_byte=0x80):
