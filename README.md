@@ -1,17 +1,15 @@
 # MorseAPI
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d4e13fe14b6b4f029ddb619c1fb3eebb)](https://www.codacy.com/app/avrabe/morseapi?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=avrabe/morseapi&amp;utm_campaign=Badge_Grade) 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7526292fdf6e4617b1722fb276c56012)](https://www.codacy.com/app/avrabe/morseapi?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=avrabe/morseapi&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7526292fdf6e4617b1722fb276c56012)](https://www.codacy.com/app/avrabe/morseapi?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=avrabe/morseapi&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.org/avrabe/morseapi.svg?branch=master)](https://travis-ci.org/avrabe/morseapi)
 
-`MorseAPI` is an unofficial (and unsanctioned) python library for controlling
+`MorseAPI` is an unofficial (and unsanctioned) python library for encoding and decoding messages rom and to
 [Wonder Workshop's](https://www.makewonder.com/)
 [Dash and Dot](https://www.makewonder.com/?gclid=CPOO8bC8k8oCFdaRHwodPeMIZg)
 robots.
 
-
-TODO: integrate into wonderpy
-
-MorseAPI abstracts out this communication protocol and, through python methods
+MorseAPI abstracts out the communication protocol and, through python methods
 exposes control of lights, motion and sensor data.
 
 
@@ -71,17 +69,10 @@ Dash and Dot have many different commands. Morse implements only fraction there 
 Run:
 
 ```
-examples/clock.py C0:F0
-```
-
-where `C0:F0:84:3C:51:FA` should be the bluetooth address of your bot
-
-```
 $ python
 >>> from morseapi import MorseRobot
->>> bot = MorseRobot("C0:F0:84:3C:51:FA")
+>>> bot = MorseRobot()
 >>> bot.reset()
->>> bot.connect()
 >>> bot.say("hi")
 >>> bot.move(100)
 >>> bot.turn(45)
