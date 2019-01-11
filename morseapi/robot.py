@@ -75,7 +75,7 @@ class MorseRobot():
         """
         message = bytearray([COMMANDS[command_name]]) + command_values
         logging.debug(binascii.hexlify(message))
-        return command_values
+        return message
 
     def reset(self, mode=4):
         """
@@ -244,7 +244,7 @@ class MorseRobot():
         speed = min(2048, speed)
         if speed < 0:
             speed = 0x800 + speed
-        self.command("drive", bytearray([
+        return self.command("drive", bytearray([
             0x00,
             speed & 0xff,
             (speed & 0xff00) >> 5
