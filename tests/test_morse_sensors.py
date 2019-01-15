@@ -50,7 +50,7 @@ DOT_DECODED_SENSOR = {
 class RobotTests(object):
     def setup_helper(self):
         self.conn = MagicMock()
-        self.sensor_state = defaultdict(int) 
+        self.sensor_state = defaultdict(int)
         self.sense = MorseSense(self.conn, self.sensor_state)
         self.conn.subscribe = MagicMock(
             side_effect=self.subscribe_side_effect()
@@ -122,7 +122,7 @@ class DashSenseTest(RobotTests, unittest.TestCase):
     def test_dash_sensor_data(self):
         self.assert_sensor_data(DOT_DECODED_SENSOR)
         self.assert_sensor_data(DASH_DECODED_SENSOR)
-        
+
     def test_dash_start(self):
         self.assert_start()
 

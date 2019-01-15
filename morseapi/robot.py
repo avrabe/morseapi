@@ -66,6 +66,7 @@ class MorseRobot():
         self.state = self.sensor_state
         self.sense = None
 
+    @staticmethod
     def command(self, command_name, command_values):
         """
         Send a command to robot
