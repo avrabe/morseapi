@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="morseapi",
-    version="0.0.1",
+    version="1.0.1",
     description="Unofficial API for controlling Wonder Workshops Dot and Dash robots",
     author="Ilya Sukhanov",
     author_email="ilya@sukhanov.net",
